@@ -185,4 +185,18 @@ Summary: 18 passed, 0 failed, 9 suites. Total duration: 498ms.
 | Prompt Integrity | `python3 scripts/log_prompt.py verify` | **PASS** | 11/11 prompts verified; SHA-256 hash chain intact. |
 | Prompt Report | `python3 scripts/log_prompt.py report` | **PASS** | Integrity OK, 0 blocked change attempts. |
 
+---
 
+## 6. Cloud Deployment & Hosting Verification
+
+- **Production URL:** [https://displaceos.vercel.app/](https://displaceos.vercel.app/)
+- **Hosting Platform:** Vercel (Production branch: `main`)
+- **404 Root Cause & Resolution:**
+  - `main` branch previously lacked application code because commits were isolated on `backend-work`. Merged and synchronized `backend-work` into `main`.
+  - Added root `vercel.json` and `client/vercel.json` with SPA rewrite rules (`/(.*)` &rarr; `/index.html`) and configured build target `client/dist`.
+  - Added monorepo `workspaces: ["client", "server"]` to root `package.json` for proper Vercel package resolution.
+- **Verification Evidence:**
+  - `GET https://displaceos.vercel.app/` &rarr; `HTTP/1.1 200 OK`
+  - `GET https://displaceos.vercel.app/map` &rarr; `HTTP/1.1 200 OK` (SPA routing active)
+  - `GET https://displaceos.vercel.app/login` &rarr; `HTTP/1.1 200 OK`
+  - JavaScript production bundle `assets/index-xLlY1LPx.js` loads and executes cleanly.
