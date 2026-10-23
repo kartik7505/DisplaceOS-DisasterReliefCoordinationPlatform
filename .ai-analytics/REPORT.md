@@ -1,12 +1,12 @@
 # AI Prompt Report
 
-Project: DisplaceOS · Prompts: 19 · Members: 1 · Blocked change attempts: 0 · Period: 2026-10-23 to 2026-10-23
+Project: DisplaceOS · Prompts: 20 · Members: 1 · Blocked change attempts: 0 · Period: 2026-10-23 to 2026-10-23
 
 Log integrity: OK (no logged line has been changed or deleted).
 
 | Member | Total | Active days | Tools | code_push_to_github | code_deletion | code_review | brainstorming | code_generation | other |
 |---|---:|---:|---|---:|---:|---:|---:|---:|---:|
-| kartikkumar.260111071@gehu.ac.in | 19 | 1 | Antigravity, antigravity, gemini, other | 8 (42%) | 1 (5%) | 0 | 1 (5%) | 1 (5%) | 8 (42%) |
+| kartikkumar.260111071@gehu.ac.in | 20 | 1 | Antigravity, antigravity, gemini, other | 9 (45%) | 1 (5%) | 0 | 1 (5%) | 1 (5%) | 8 (40%) |
 
 ## Prompts by member
 
@@ -33,5 +33,6 @@ Log integrity: OK (no logged line has been changed or deleted).
 | 2026-10-23 14:24 | other | code_push_to_github | push all to github |
 | 2026-10-23 14:39 | other | other | https://displaceos.vercel.app/ it is showing 404 error |
 | 2026-10-23 14:47 | other | code_push_to_github | Please confirm: Shall I push main and backend-work to GitHub (origin/main) so Vercel can automatically trigger the deployment and make https://displaceos.vercel.app/ live? yes |
+| 2026-10-23 14:55 | other | code_push_to_github | remove this only keep demo logins below it and push to git vercel |
 
 Categories come from the fixed keyword rubric in `ai-governance.json`. They show what each member asked AI for, not the quality of their work.
