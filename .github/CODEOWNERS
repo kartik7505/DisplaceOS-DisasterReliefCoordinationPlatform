@@ -1,0 +1,13 @@
+# Governance files: changes need approval from the repo admin (turn on "Require review from Code Owners").
+/AGENTS.md                              @kartik7505
+/CLAUDE.md                              @kartik7505
+/ai-governance.json                     @kartik7505
+/scripts/log_prompt.py                  @kartik7505
+/tests/                                 @kartik7505
+/.claude/                               @kartik7505
+/.gitattributes                         @kartik7505
+/.github/hooks/                         @kartik7505
+/.github/workflows/ai-governance.yml    @kartik7505
+/.githooks/                             @kartik7505
+/.github/copilot-instructions.md        @kartik7505
+/.github/CODEOWNERS                     @kartik7505

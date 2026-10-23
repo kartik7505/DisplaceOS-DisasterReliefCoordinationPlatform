@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "project": "CHANGE_ME",
+  "project": "DisplaceOS",
   "store_prompt_text": true,
   "log_dir": ".ai-analytics",
   "rubric_note": "Fixed rubric. A prompt gets the category with the most keyword hits. On a tie, the category listed FIRST wins. No hits -> other. Keywords match at the start of a word ('push' matches 'pushing'). Change only with team agreement and note the date.",
