@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import { cn, ROLE_LABELS, ROLE_LABELS_HI } from "../lib/utils";
+import { cn, ROLE_LABELS } from "../lib/utils";
 import {
   LayoutDashboard,
   Package,
@@ -20,7 +20,6 @@ interface NavItem {
   to: string;
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  labelHi: string;
   roles: UserRole[];
 }
 
@@ -29,35 +28,30 @@ const NAV_ITEMS: NavItem[] = [
     to: "/dashboard",
     icon: LayoutDashboard,
     label: "Dashboard",
-    labelHi: "डैशबोर्ड",
     roles: ["admin", "regional_coordinator", "camp_manager", "volunteer"],
   },
   {
     to: "/requests",
     icon: ClipboardList,
     label: "Supply Requests",
-    labelHi: "सामग्री मांग",
     roles: ["admin", "regional_coordinator", "camp_manager", "volunteer"],
   },
   {
     to: "/inventory",
     icon: Package,
     label: "Warehouses & Stock",
-    labelHi: "गोदाम स्टॉक",
     roles: ["admin", "regional_coordinator"],
   },
   {
     to: "/map",
     icon: MapPin,
     label: "Crisis Map",
-    labelHi: "आपदा मानचित्र",
     roles: ["admin", "regional_coordinator", "camp_manager", "volunteer"],
   },
   {
     to: "/deliveries",
     icon: Truck,
     label: "My Dispatches",
-    labelHi: "मेरी आपूर्ति",
     roles: ["volunteer"],
   },
 ];
@@ -95,7 +89,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex-1 p-3 space-y-1">
-            {visibleNav.map(({ to, icon: Icon, label, labelHi }) => (
+            {visibleNav.map(({ to, icon: Icon, label }) => (
               <Link
                 key={to}
                 to={to}
@@ -107,10 +101,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 )}
               >
                 <Icon className="w-4 h-4 text-orange-400/90" />
-                <div className="flex flex-col">
-                  <span>{label}</span>
-                  <span className="text-[10px] font-normal text-slate-500">{labelHi}</span>
-                </div>
+                <span>{label}</span>
               </Link>
             ))}
           </div>
@@ -124,7 +115,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div className="flex-1 min-w-0">
                   <div className="text-slate-100 text-xs font-bold truncate">{user.full_name}</div>
                   <div className="text-slate-400 text-[10px] truncate">{ROLE_LABELS[user.role]}</div>
-                  <div className="text-slate-500 text-[9px] truncate">{ROLE_LABELS_HI[user.role]}</div>
                 </div>
               </div>
               <button
@@ -135,7 +125,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 className="w-full flex items-center justify-center gap-2 px-3 py-2 text-slate-400 hover:text-red-400 text-xs font-medium rounded-lg hover:bg-red-500/10 transition border border-transparent hover:border-red-500/20"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                Sign Out (लॉग आउट)
+                Sign Out
               </button>
             </div>
           )}

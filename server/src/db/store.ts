@@ -36,7 +36,7 @@ function getInitialSeed(): DBState {
   const regions: Region[] = [
     {
       id: "a1b2c3d4-0000-0000-0000-000000000001",
-      name: "Garhwal Disaster Response Zone (गढ़वाल प्रभाग)",
+      name: "Garhwal Disaster Response Zone",
       description: "Fictional regional division covering Dehradun, Haridwar, Rudraprayag, and Chamoli valleys",
       coordinator_id: "coord-001",
       center_lat: 30.3165,
@@ -46,7 +46,7 @@ function getInitialSeed(): DBState {
     },
     {
       id: "a1b2c3d4-0000-0000-0000-000000000002",
-      name: "Kumaon Disaster Response Zone (कुमाऊं प्रभाग)",
+      name: "Kumaon Disaster Response Zone",
       description: "Fictional regional division covering Nainital, Almora, and Pithoragarh foothill sectors",
       coordinator_id: "coord-002",
       center_lat: 29.3919,
@@ -56,7 +56,7 @@ function getInitialSeed(): DBState {
     },
     {
       id: "a1b2c3d4-0000-0000-0000-000000000003",
-      name: "Upper Himalayas Emergency Sector (उच्च हिमालयी प्रभाग)",
+      name: "Upper Himalayas Emergency Sector",
       description: "Fictional high-altitude contingency sector covering Chamoli and Pithoragarh border valleys",
       coordinator_id: "coord-003",
       center_lat: 30.5500,
@@ -69,7 +69,7 @@ function getInitialSeed(): DBState {
   const camps: Camp[] = [
     {
       id: "camp-001",
-      name: "Maldevta Relief Shelter (मालदेवता शिविर - Fictional)",
+      name: "Maldevta Relief Shelter (Fictional)",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
       manager_id: "mgr-001",
       address: "Near Song River Embankment, Maldevta, Dehradun, Uttarakhand - 248008",
@@ -83,7 +83,7 @@ function getInitialSeed(): DBState {
     },
     {
       id: "camp-002",
-      name: "Rudraprayag Valley Camp (रुद्रप्रयाग शिविर - Fictional)",
+      name: "Rudraprayag Valley Camp (Fictional)",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
       manager_id: "mgr-002",
       address: "Alaknanda-Mandakini Bypass Ground, Rudraprayag, Uttarakhand - 246171",
@@ -97,7 +97,7 @@ function getInitialSeed(): DBState {
     },
     {
       id: "camp-003",
-      name: "Birahi Landslide Evacuation Base (बिरही केंद्र - Fictional)",
+      name: "Birahi Landslide Evacuation Base (Fictional)",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
       manager_id: "mgr-003",
       address: "Old Valley School Ground, Chamoli, Uttarakhand - 246424",
@@ -115,7 +115,7 @@ function getInitialSeed(): DBState {
     {
       id: "inv-001",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
-      name: "Rice / चावल (10kg bags)",
+      name: "Non-Perishable Rice (10kg bags)",
       category: "food",
       unit: "bags",
       quantity_available: 500,
@@ -127,7 +127,7 @@ function getInitialSeed(): DBState {
     {
       id: "inv-002",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
-      name: "Packaged Drinking Water / पेयजल (1L bottles)",
+      name: "Packaged Drinking Water (1L bottles)",
       category: "water",
       unit: "bottles",
       quantity_available: 2000,
@@ -139,7 +139,7 @@ function getInitialSeed(): DBState {
     {
       id: "inv-003",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
-      name: "Trauma & First Aid Kits / प्राथमिक चिकित्सा किट",
+      name: "Trauma & First Aid Kits",
       category: "medicine",
       unit: "kits",
       quantity_available: 150,
@@ -151,7 +151,7 @@ function getInitialSeed(): DBState {
     {
       id: "inv-004",
       region_id: "a1b2c3d4-0000-0000-0000-000000000001",
-      name: "Warm Woolen Blankets / ऊनी कंबल",
+      name: "Warm Woolen Blankets",
       category: "shelter",
       unit: "units",
       quantity_available: 300,
@@ -163,7 +163,7 @@ function getInitialSeed(): DBState {
     {
       id: "inv-005",
       region_id: "a1b2c3d4-0000-0000-0000-000000000002",
-      name: "Heavy-Duty Tarpaulin Sheets / तिरपाल (12x18 ft)",
+      name: "Heavy-Duty Tarpaulin Sheets (12x18 ft)",
       category: "shelter",
       unit: "sheets",
       quantity_available: 400,
@@ -215,7 +215,7 @@ function getInitialSeed(): DBState {
       request_id: "req-001",
       inventory_id: "inv-002",
       quantity_requested: 500,
-      name: "Packaged Drinking Water / पेयजल (1L bottles)",
+      name: "Packaged Drinking Water (1L bottles)",
       category: "water",
       unit: "bottles",
       created_at: "2026-10-23T06:30:00Z",
@@ -226,7 +226,7 @@ function getInitialSeed(): DBState {
       inventory_id: "inv-003",
       quantity_requested: 20,
       quantity_allocated: 20,
-      name: "Trauma & First Aid Kits / प्राथमिक चिकित्सा किट",
+      name: "Trauma & First Aid Kits",
       category: "medicine",
       unit: "kits",
       created_at: "2026-10-23T05:00:00Z",

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore, DEMO_USERS } from "../store/authStore";
 import { Shield, AlertTriangle, Info, Lock, MapPin, UserCheck } from "lucide-react";
 import type { UserRole } from "../types";
-import { ROLE_LABELS, ROLE_LABELS_HI } from "../lib/utils";
+import { ROLE_LABELS } from "../lib/utils";
 import { isSupabaseConfigured } from "../lib/supabase";
 
 const DEMO_ROLES: UserRole[] = ["admin", "regional_coordinator", "camp_manager", "volunteer"];
@@ -75,7 +75,7 @@ export default function LoginPage() {
           </div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">DisplaceOS</h1>
           <p className="text-slate-400 mt-1 text-sm font-medium">
-            Disaster Relief Coordination Platform &bull; Uttarakhand Node (उत्तराखंड)
+            Disaster Relief Coordination Platform &bull; Uttarakhand Node
           </p>
         </div>
 
@@ -179,7 +179,6 @@ export default function LoginPage() {
                       <span className="text-orange-400 font-bold text-[10px] uppercase tracking-wider group-hover:text-orange-300">
                         {ROLE_LABELS[role]}
                       </span>
-                      <span className="text-[10px] text-slate-500 font-medium">{ROLE_LABELS_HI[role]}</span>
                     </div>
                     <div className="font-bold text-white text-sm flex items-center gap-1.5">
                       <UserCheck className="w-3.5 h-3.5 text-emerald-400" />

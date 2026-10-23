@@ -25,12 +25,12 @@ export const STATUS_LABELS: Record<RequestStatus, string> = {
 };
 
 export const STATUS_LABELS_HI: Record<RequestStatus, string> = {
-  pending: "लंबित",
-  approved: "स्वीकृत",
-  allocated: "आवंटित",
-  dispatched: "प्रेषित",
-  delivered: "वितरित",
-  cancelled: "रद्द",
+  pending: "Pending",
+  approved: "Approved",
+  allocated: "Allocated",
+  dispatched: "Dispatched",
+  delivered: "Delivered",
+  cancelled: "Cancelled",
 };
 
 export const CATEGORY_ICONS: Record<SupplyCategory, string> = {
@@ -45,22 +45,22 @@ export const CATEGORY_ICONS: Record<SupplyCategory, string> = {
 };
 
 export const CATEGORY_LABELS_HI: Record<SupplyCategory, string> = {
-  food: "खाद्यान्न (Food)",
-  water: "पेयजल (Water)",
-  medicine: "दवाएं व उपचार (Medicine)",
-  shelter: "आश्रय व तिरपाल (Shelter)",
-  clothing: "कंबल व वस्त्र (Clothing)",
-  hygiene: "स्वच्छता किट (Hygiene)",
-  tools: "बचाव उपकरण (Tools)",
-  other: "अन्य सामग्री (Other)",
+  food: "Food",
+  water: "Water",
+  medicine: "Medicine",
+  shelter: "Shelter",
+  clothing: "Clothing",
+  hygiene: "Hygiene",
+  tools: "Tools",
+  other: "Other",
 };
 
-export const PRIORITY_LABELS: Record<number, { label: string; color: string; labelHi: string }> = {
-  1: { label: "CRITICAL", color: "text-red-400", labelHi: "अति गंभीर" },
-  2: { label: "HIGH", color: "text-orange-400", labelHi: "उच्च प्राथमिकता" },
-  3: { label: "MEDIUM", color: "text-amber-400", labelHi: "मध्यम" },
-  4: { label: "LOW", color: "text-blue-400", labelHi: "सामान्य" },
-  5: { label: "MINIMAL", color: "text-slate-400", labelHi: "न्यूनतम" },
+export const PRIORITY_LABELS: Record<number, { label: string; color: string; labelHi?: string }> = {
+  1: { label: "CRITICAL", color: "text-red-400" },
+  2: { label: "HIGH", color: "text-orange-400" },
+  3: { label: "MEDIUM", color: "text-amber-400" },
+  4: { label: "LOW", color: "text-blue-400" },
+  5: { label: "MINIMAL", color: "text-slate-400" },
 };
 
 export const ROLE_LABELS: Record<string, string> = {
@@ -71,10 +71,10 @@ export const ROLE_LABELS: Record<string, string> = {
 };
 
 export const ROLE_LABELS_HI: Record<string, string> = {
-  admin: "प्रशासक (State Logistics)",
-  regional_coordinator: "क्षेत्रीय समन्वयक (Division Lead)",
-  camp_manager: "शिविर प्रबंधक (Camp Manager)",
-  volunteer: "स्वयंसेवक (Field Volunteer)",
+  admin: "State Logistics Administrator",
+  regional_coordinator: "Division Lead Coordinator",
+  camp_manager: "Relief Camp Manager",
+  volunteer: "Field Courier Volunteer",
 };
 
 export const DEMO_BANNER = "⚠️ SYNTHETIC DEMO — Uttarakhand Relief Coordination (Fictional Operations)";

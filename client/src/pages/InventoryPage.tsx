@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { demoInventory } from "../lib/demoData";
-import { CATEGORY_ICONS, CATEGORY_LABELS_HI, cn, formatNumberIN } from "../lib/utils";
+import { CATEGORY_ICONS, cn, formatNumberIN } from "../lib/utils";
 import type { InventoryItem, SupplyCategory } from "../types";
 import { Package, TrendingDown, Plus, RefreshCw, X } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
@@ -34,8 +34,7 @@ function InventoryCard({ item, onRestock }: { item: InventoryItem; onRestock: (i
           <div>
             <div className="text-white font-semibold text-sm">{item.name}</div>
             <div className="text-slate-400 text-xs">
-              {item.region_name} &bull; <span className="capitalize">{item.category}</span>{" "}
-              <span className="text-[11px] text-slate-500">({CATEGORY_LABELS_HI[item.category] || item.category})</span>
+              {item.region_name} &bull; <span className="capitalize">{item.category}</span>
             </div>
           </div>
         </div>

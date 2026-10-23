@@ -1,6 +1,6 @@
 # DisplaceOS — Disaster Relief Coordination Platform
 
-**Regional Deployment:** Uttarakhand Node (उत्तराखंड) — Garhwal & Kumaon Mountain Districts  
+**Regional Deployment:** Uttarakhand Node — Garhwal & Kumaon Mountain Districts  
 **Repository Branch:** `backend-work`  
 **License:** MIT
 
@@ -32,10 +32,10 @@ All test identities preserve stable database UUIDs and RBAC security boundaries:
 
 | Role | Operator Name | System ID | Designated Area |
 | :--- | :--- | :--- | :--- |
-| **Administrator (प्रशासक)** | **Anjali Sharma** | `admin-001` | State Operations Centre, Dehradun HQ |
-| **Regional Coordinator (क्षेत्रीय समन्वयक)** | **Meera Joshi** | `coord-001` | Garhwal Central Division Depot, Rishikesh |
-| **Camp Manager (शिविर प्रबंधक)** | **Asha Rawat** | `mgr-001` | Maldevta Relief Shelter, Dehradun |
-| **Volunteer (स्वयंसेवक)** | **Ravi Bisht** | `vol-001` | Mountain Courier Network, Garhwal |
+| **Administrator** | **Anjali Sharma** | `admin-001` | State Operations Centre, Dehradun HQ |
+| **Regional Coordinator** | **Meera Joshi** | `coord-001` | Garhwal Central Division Depot, Rishikesh |
+| **Camp Manager** | **Asha Rawat** | `mgr-001` | Maldevta Relief Shelter, Dehradun |
+| **Volunteer** | **Ravi Bisht** | `vol-001` | Mountain Courier Network, Garhwal |
 
 ---
 
@@ -45,7 +45,7 @@ All test identities preserve stable database UUIDs and RBAC security boundaries:
 * **Currency:** Indian Rupee (`₹`) applied exclusively to monetary budgets.
 * **Timestamps:** Rendered in Indian Standard Time (`Asia/Kolkata`, IST: UTC+5:30) while storing pure UTC ISO-8601 strings internally.
 * **Phone Formatting:** Standard Indian format `+91 98XXX XXXXX` (clearly marked fictional).
-* **Bilingual Terminology:** English primary interface with authentic Hindi terminology for roles, categories, and operational statuses (e.g., `लंबित`, `आवंटित`, `पारगमन में`, `वितरित`).
+* **Interface Language:** Clear, accessible English language across all operational displays.
 * **Clean UTF-8:** Zero corrupted characters or broken encoding artifacts (`??`, `Ã—`, `â€”`).
 
 ---

@@ -14,11 +14,11 @@ function CampLegend() {
       </div>
       <div className="flex items-center gap-2 text-slate-300">
         <span className="w-3 h-3 rounded-full bg-orange-400 inline-block shadow-sm shadow-orange-400/50" />
-        <span>Shelter &gt;80% Capacity (उच्च अधिभोग)</span>
+        <span>Shelter &gt;80% Capacity (High Occupancy)</span>
       </div>
       <div className="flex items-center gap-2 text-slate-300">
         <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block shadow-sm shadow-emerald-400/50" />
-        <span>Shelter &lt;80% Capacity (सामान्य)</span>
+        <span>Shelter &lt;80% Capacity (Normal)</span>
       </div>
       <div className="flex items-center gap-2 text-slate-300">
         <span className="w-3 h-3 rounded-full bg-blue-400 inline-block shadow-sm shadow-blue-400/50" />
@@ -120,8 +120,7 @@ export default function MapPage() {
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div>
             <h1 className="text-2xl font-extrabold text-white flex items-center gap-2 tracking-tight">
-              <MapPin className="w-6 h-6 text-orange-400" /> Uttarakhand Crisis & Relief Map
-              <span className="text-xs font-normal text-slate-400 hidden sm:inline">(आपदा राहत मानचित्र)</span>
+              <MapPin className="w-6 h-6 text-orange-400" /> Uttarakhand Crisis &amp; Relief Map
             </h1>
             <p className="text-slate-400 text-xs mt-1">
               Fictional facilities in Dehradun, Haridwar, Nainital, Chamoli, Rudraprayag, and Pithoragarh districts

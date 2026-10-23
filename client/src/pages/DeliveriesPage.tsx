@@ -5,7 +5,6 @@ import {
   cn,
   STATUS_COLORS,
   STATUS_LABELS,
-  STATUS_LABELS_HI,
   CATEGORY_ICONS,
   formatDate,
   formatNumberIN,
@@ -70,7 +69,6 @@ export default function DeliveriesPage() {
                     <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                       <span className={cn("text-xs px-2.5 py-0.5 rounded border inline-flex items-center gap-1", STATUS_COLORS[req.status])}>
                         <span>{STATUS_LABELS[req.status]}</span>
-                        <span className="opacity-70 text-[10px]">({STATUS_LABELS_HI[req.status]})</span>
                       </span>
                       <span className={cn("text-xs font-bold", priority.color)}>
                         P{req.priority} {priority.label}

@@ -5,7 +5,6 @@ import {
   cn,
   STATUS_COLORS,
   STATUS_LABELS,
-  STATUS_LABELS_HI,
   PRIORITY_LABELS,
   CATEGORY_ICONS,
   formatDate,
@@ -40,7 +39,6 @@ function RequestCard({ req, onAction }: { req: SupplyRequest; onAction: (id: str
             <div className="flex items-center gap-2 mt-1.5 flex-wrap">
               <span className={cn("text-xs px-2 py-0.5 rounded border inline-flex items-center gap-1", STATUS_COLORS[req.status])}>
                 <span>{STATUS_LABELS[req.status]}</span>
-                <span className="opacity-70 text-[10px]">({STATUS_LABELS_HI[req.status]})</span>
               </span>
               {req.volunteer_name && (
                 <span className="text-xs text-slate-400 inline-flex items-center gap-1">
