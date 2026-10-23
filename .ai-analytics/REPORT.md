@@ -1,12 +1,12 @@
 # AI Prompt Report
 
-Project: DisplaceOS · Prompts: 11 · Members: 1 · Blocked change attempts: 0 · Period: 2026-10-23 to 2026-10-23
+Project: DisplaceOS · Prompts: 12 · Members: 1 · Blocked change attempts: 0 · Period: 2026-10-23 to 2026-10-23
 
 Log integrity: OK (no logged line has been changed or deleted).
 
 | Member | Total | Active days | Tools | code_push_to_github | code_deletion | code_review | brainstorming | code_generation | other |
 |---|---:|---:|---|---:|---:|---:|---:|---:|---:|
-| kartikkumar.260111071@gehu.ac.in | 11 | 1 | Antigravity, antigravity, gemini | 5 (45%) | 0 | 0 | 1 (9%) | 1 (9%) | 4 (36%) |
+| kartikkumar.260111071@gehu.ac.in | 12 | 1 | Antigravity, antigravity, gemini | 6 (50%) | 0 | 0 | 1 (8%) | 1 (8%) | 4 (33%) |
 
 ## Prompts by member
 
@@ -25,5 +25,6 @@ Log integrity: OK (no logged line has been changed or deleted).
 | 2026-10-23 08:12 | Antigravity | code_push_to_github | Continue backend-only implementation now. Do not wait for another ?continue? message. First, record this prompt according to governance rules and commit/push its log update to backend-work before laptop 2 starts. Report BACKEND START LOG PUSHED with the latest commit ID. This ensures laptop 2 starts… (full text in log) |
 | 2026-10-23 10:43 | Antigravity | other | The frontend loads at http://localhost:5173/login, but sign-in displays ?Failed to fetch.? The page shows DEMO MODE and demo quick-login buttons. Identify the exact failed network request and inspect backend logs. Check backend availability, the Vite /api proxy, frontend API URL and Supabase configu… (full text in log) |
 | 2026-10-23 10:57 | Antigravity | code_generation | Update the existing DisplaceOS website and synthetic demo data for Uttarakhand, India. Implement these changes directly; do not recreate the application. 1. Locations and map Replace foreign demo locations with clearly fictional relief camps and warehouses in Uttarakhand districts such as Dehradun, … (full text in log) |
+| 2026-10-23 11:26 | antigravity | code_push_to_github | push all to github |
 
 Categories come from the fixed keyword rubric in `ai-governance.json`. They show what each member asked AI for, not the quality of their work.
