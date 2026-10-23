@@ -122,7 +122,21 @@ Summary: 18 passed, 0 failed, 9 suites. Total duration: 498ms.
 
 ---
 
-## 4. External Configuration & Blockers
+## 4. External Configuration & Blocker Resolutions
 
-- **Live Supabase Credentials:** System connects directly to PostgreSQL when `DATABASE_URL` is set. When running in isolated testing environments or offline without local PostgreSQL, the backend runs against the transactional store with identical concurrency locks, idempotency, and RBAC rules.
-- **Frontend Coordination:** Laptop 2 owns all files in `client/**` and can consume the live endpoints on `http://localhost:4000/api` or via Vite proxy `/api`.
+- **Supabase Configuration & "Failed to fetch" Resolution:**
+  - **Root Cause Identified:** When `VITE_SUPABASE_URL` was unset in `.env`, the Supabase client initialized with a non-existent URL (`https://placeholder.supabase.co`). Submitting the live login form attempted a POST request to this endpoint, causing a browser network error (`TypeError: Failed to fetch`).
+  - **Resolution Implemented:**
+    1. Added `isSupabaseConfigured` check in `client/src/lib/supabase.ts`.
+    2. In `client/src/pages/LoginPage.tsx`, disabled the email/password form inputs and submit button when Supabase is unconfigured, showing a clear explanatory notice instead of allowing failing requests.
+    3. Attached immediate dashboard navigation (`navigate("/dashboard")`) upon selecting any role in the Demo Quick Login section.
+    4. Configured `client/src/lib/api.ts` to route requests through the Vite `/api` proxy and attach dev identity headers (`x-user-id`, `x-user-role`, `x-user-camp`, `x-user-region`) when a demo user is active.
+- **Live Verification Status:**
+  - Frontend running at: `http://localhost:5173/` (HTTP 200)
+  - Backend running at: `http://localhost:4000/api/health` (HTTP 200, status: ok)
+  - Vite Proxy: `http://localhost:5173/api/health` forwarded to backend seamlessly.
+  - Authorized Proxy Calls Verified:
+    - `GET /api/camps` with demo manager credentials returns camp list.
+    - `GET /api/dashboard/stats` with demo admin credentials returns active metrics.
+    - `POST /api/requests` with demo manager credentials creates new supply request successfully.
+
