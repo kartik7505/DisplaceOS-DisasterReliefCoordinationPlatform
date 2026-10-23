@@ -212,7 +212,7 @@ describe("4. Role-Based Access Control (RBAC) & Scope Enforcement", () => {
   });
 });
 
-describe("5. End-to-End Workflow: Request âž” Allocate âž” Dispatch âž” Deliver with Stock Accounting", () => {
+describe("5. End-to-End Workflow: Request -> Allocate -> Dispatch -> Deliver with Stock Accounting", () => {
   test("Complete supply lifecycle tracks inventory reservations and deductions accurately", async () => {
     // Check baseline inventory for inv-001 (Rice): available 500, reserved 50
     const invBefore = await dbStore.getInventoryItem("inv-001");

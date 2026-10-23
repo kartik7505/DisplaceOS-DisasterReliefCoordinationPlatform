@@ -13,43 +13,49 @@ interface AuthState {
   setDemoUser: (role: Profile["role"]) => void;
 }
 
-// Demo users matching backend synthetic entities (store.ts & seed.sql)
-const DEMO_PROFILES: Record<string, Profile> = {
+// Fictional synthetic identities for Uttarakhand disaster relief coordination
+export const DEMO_PROFILES: Record<string, Profile> = {
   admin: {
     id: "admin-001",
-    full_name: "System Administrator",
+    full_name: "Anjali Sharma",
     role: "admin",
+    phone: "+91 98XXX XXXXX (Fictional)",
     is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   regional_coordinator: {
     id: "coord-001",
-    full_name: "North Zone Coordinator",
+    full_name: "Meera Joshi",
     role: "regional_coordinator",
     region_id: "a1b2c3d4-0000-0000-0000-000000000001",
+    phone: "+91 98XXX XXXXX (Fictional)",
     is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   camp_manager: {
     id: "mgr-001",
-    full_name: "Alpha Camp Manager",
+    full_name: "Asha Rawat",
     role: "camp_manager",
     camp_id: "camp-001",
+    phone: "+91 98XXX XXXXX (Fictional)",
     is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   volunteer: {
     id: "vol-001",
-    full_name: "Anita Roy (Field Volunteer)",
+    full_name: "Ravi Bisht",
     role: "volunteer",
+    phone: "+91 98XXX XXXXX (Fictional)",
     is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
 };
+
+export const DEMO_USERS = DEMO_PROFILES;
 
 export const useAuthStore = create<AuthState>()(
   persist(

@@ -1,56 +1,126 @@
-# AI Prompt Governance Kit
+# DisplaceOS — Disaster Relief Coordination Platform
 
-Every prompt a member types to an AI assistant in this repo is logged word for word (never the AI's response) to `.ai-analytics/<member>.jsonl`, committed with their work, and categorized on a fixed rubric. `REPORT.md` summarizes it per member.
+**Regional Deployment:** Uttarakhand Node (उत्तराखंड) — Garhwal & Kumaon Mountain Districts  
+**Repository Branch:** `backend-work`  
+**License:** MIT
 
-## Setup
+> ⚠️ **IMPORTANT SIMULATION NOTICE:**  
+> All relief facilities, personnel, phone numbers, inventory records, and disaster incident cards presented in this platform are **strictly fictional and synthetic**. They are created for testing, evaluation, and demonstration purposes only. They do **not** represent live emergency incidents, active operational camps, or official government agencies.
 
-**Repo owner, once:**
-1. Put the zip in your project folder, open the project in Claude Code or Copilot (agent mode), and type:
-   `Unzip ai-prompt-governance-kit.zip into the project root, keeping hidden files, then delete the zip.`
-2. Commit and push everything.
-3. Start a new AI chat. The AI asks for your email, project name and GitHub username, and finishes the setup itself. Commit and push again.
-4. On GitHub → Settings → Rules → Rulesets, add a ruleset for `main`: require a pull request, require review from Code Owners, require the `check` status check, block force pushes, restrict deletions, and **leave the bypass list empty** so the rules apply to the owner too. (The AI can't do this step for you.)
+---
 
-**Each member, once:** pull the latest code and open the project in Claude Code or Copilot. In the first AI chat, the AI asks for their email and sets everything up. After that the setup check finishes instantly and stays silent. (Python 3.10+ must be installed.)
+## 1. Overview & Core Mission
 
-Setup is remembered per member and per copy of the project (in `.git/ai-governance-ready`). The rules in `AGENTS.md` are still loaded by the IDE in every chat; that is automatic and needs nothing from anyone.
+DisplaceOS is a mission-critical disaster relief coordination platform engineered to manage emergency supply chains during natural disasters in complex mountain terrain. The platform coordinates four primary operational roles across a four-stage supply lifecycle:
 
-## How the rules are enforced
-| Rule | Claude Code | GitHub Copilot (VS Code agent, Copilot CLI) | Cursor, Codex, others |
-|---|---|---|---|
-| Log every prompt, word for word | Hook (automatic) | Hook (automatic) | Instruction in `AGENTS.md` only |
-| AI can't edit logs or governance files | Hook blocks it | Hook blocks it | Instruction only |
-| Ask before `git push` | Hook asks | Hook asks | Instruction only |
-| No one (owner included) can change or delete a logged prompt | Hook blocks the AI and logs the attempt | Hook blocks the AI and logs the attempt | Instruction only |
-| Same, for edits made by hand | Pre-commit hook blocks the commit; CI fails the PR and opens a "tampering" issue | same | same |
-| Rule files can't change without admin | CODEOWNERS review | CODEOWNERS review | CODEOWNERS review |
-| Other rules in `AGENTS.md` (prompt-injection, code quality) | Instruction | Instruction | Instruction |
+$$\textbf{Camp Requisition} \longrightarrow \textbf{Zonal Stock Allocation} \longrightarrow \textbf{Mountain Transit Dispatch} \longrightarrow \textbf{Camp Delivery Confirmation}$$
 
-Hooks live in `.claude/settings.json` (Claude Code; Copilot reads it too) and `.github/hooks/ai-governance.json` (Copilot). If both fire for one prompt, it is logged once.
+### Uttarakhand Disaster Simulation Scenario
+* **Context:** Synthetic monsoon cloudburst and landslide scenarios along the Alaknanda and Mandakini river valleys disrupting road connectivity across Dehradun, Rudraprayag, and Chamoli mountain corridors.
+* **Locally Relevant Relief Items:**
+  * **Food Rations:** Non-Perishable Rice (10kg bags), Whole Wheat Atta (10kg sacks), Arhar & Chana Dal (5kg bags).
+  * **Hydration:** Packaged Drinking Water (20L Jerry Cans).
+  * **Shelter & Warmth:** Thermal Heavy Woolen Blankets, Heavy-Duty Waterproof Tarpaulins (12×18 ft).
+  * **Medical Supplies:** Emergency Trauma First-Aid & Dressing Kits, WHO-Standard ORS Rehydration Packets.
+  * **Hygiene & Maternal:** Family Hygiene Kits, Sanitary Pads (Multipack of 24), Infant Care & Baby Formula Supplies.
 
-## Fixed rubric (5 categories + other)
-Defined in `ai-governance.json` → `categories`, in this priority order:
-`code_push_to_github`, `code_deletion`, `code_review`, `brainstorming`, `code_generation`.
-- Most keyword hits wins; a tie goes to the category listed first.
-- A prompt gets exactly one category.
-- No hits → `other` (e.g. "fix this bug", "explain this"). Add keywords if too many prompts land here.
+---
 
-## Report
-`python3 scripts/log_prompt.py report --out .ai-analytics/REPORT.md`, then commit it. It has a per-member summary table, then every prompt per member with time, tool and category (prompts over 300 characters are cut in the report; the full text stays in the `.jsonl`).
+## 2. Synthetic Indian Personnel & Roles
 
-## Why the logs can't be changed silently
-- Each log line stores the hash of the line before it. Changing or deleting any earlier line breaks the chain, and both `verify` and `REPORT.md` show **Log integrity: FAILED**.
-- CI compares every PR and every push to `main` against the previous version and fails if any existing line changed. It then opens a GitHub issue naming who did it.
-- The CI check runs from the `main` branch's copy of the workflow and script, so a PR can't switch the check off by editing them.
-- Attempts the hooks block are written to the log as `blocked_change` events and listed in `REPORT.md`.
+All test identities preserve stable database UUIDs and RBAC security boundaries:
 
-## Things to know
-- The repo owner controls the GitHub settings, so in the end they *can* turn rules off, delete issues or rewrite history. What this kit guarantees is that it can't be done **silently**: every member's clone keeps the old history, and `python3 scripts/log_prompt.py verify --base <old commit>` in any clone shows exactly what changed. For proof the owner can't touch, have someone outside the repo (e.g. a faculty mentor) keep a clone or periodically download the logs.
-- What no IDE can enforce: a member can switch hooks off on their own machine, use an AI tool without hooks, or not commit their log. CI warns when a PR has no new log lines; treat that as a question to ask, not as proof AI wasn't used.
-- The VS Code hooks feature is in Preview and an organization policy can disable it, so do step 5 of setup.
-- Copilot inline autocomplete (grey suggestions while typing) has no prompt and is not logged.
-- Full prompt text is stored and committed, so it stays in git history permanently and anyone with repo access can read it. Secrets matching common patterns (passwords, API keys, tokens, private keys) are redacted first, but redaction is best-effort: tell members never to paste secrets or personal data into prompts. Set `store_prompt_text` to `false` to keep categories only.
-- `.gitattributes` uses `merge=union`, so log files don't conflict when branches merge.
-- Identity is whatever each member puts in git config, and members can skip committing their log. Missing logs mean missing data, not zero AI use.
-- Spot-check 20–30 entries against the rubric before trusting the numbers.
-- `AGENTS.md` is the source of truth; copy its body into `.github/copilot-instructions.md` after edits (a test checks this).
+| Role | Operator Name | System ID | Designated Area |
+| :--- | :--- | :--- | :--- |
+| **Administrator (प्रशासक)** | **Anjali Sharma** | `admin-001` | State Operations Centre, Dehradun HQ |
+| **Regional Coordinator (क्षेत्रीय समन्वयक)** | **Meera Joshi** | `coord-001` | Garhwal Central Division Depot, Rishikesh |
+| **Camp Manager (शिविर प्रबंधक)** | **Asha Rawat** | `mgr-001` | Maldevta Relief Shelter, Dehradun |
+| **Volunteer (स्वयंसेवक)** | **Ravi Bisht** | `vol-001` | Mountain Courier Network, Garhwal |
+
+---
+
+## 3. Indian Presentation & Localization Standards
+
+* **Number Formatting:** Standard `en-IN` numbering (`formatNumberIN` formatted as e.g., `1,25,000` units).
+* **Currency:** Indian Rupee (`₹`) applied exclusively to monetary budgets.
+* **Timestamps:** Rendered in Indian Standard Time (`Asia/Kolkata`, IST: UTC+5:30) while storing pure UTC ISO-8601 strings internally.
+* **Phone Formatting:** Standard Indian format `+91 98XXX XXXXX` (clearly marked fictional).
+* **Bilingual Terminology:** English primary interface with authentic Hindi terminology for roles, categories, and operational statuses (e.g., `लंबित`, `आवंटित`, `पारगमन में`, `वितरित`).
+* **Clean UTF-8:** Zero corrupted characters or broken encoding artifacts (`??`, `Ã—`, `â€”`).
+
+---
+
+## 4. Architecture & Technology Stack
+
+* **Frontend:** React 18, TypeScript, TailwindCSS, Zustand (state management), MapLibre GL (crisis map centered on Uttarakhand: `[79.2000, 30.1500]`, zoom 7.6).
+* **Backend:** Node.js, Express 5, TypeScript.
+* **Database & Data Store:**
+  * PostgreSQL (Supabase / pg) with transactional schema (`server/src/db/schema.sql`).
+  * In-memory ACID fallback store with row-level mutex locking on inventory items to prevent concurrent over-allocation.
+* **Security & Hardening:**
+  * Strict production authentication: dev headers (`x-user-role`, `x-user-camp`) are rejected in production mode.
+  * In non-production demo mode, role headers allow seamless testing of RBAC policies.
+  * Idempotency protection (`Idempotency-Key` header with SHA-256 payload hashing) prevents double-allocation on retried mountain mobile connections.
+
+---
+
+## 5. Quick Start & Local Development
+
+### Prerequisites
+* Node.js v18+ (tested on Node v24.20.0)
+* Python 3.10+ (for prompt governance verification)
+
+### Running the Services
+
+1. **Install Dependencies:**
+   ```bash
+   npm install --prefix client
+   npm install --prefix server
+   ```
+
+2. **Start Backend (Port 4000):**
+   ```bash
+   npm run dev --prefix server
+   ```
+   *Health Check:* `http://localhost:4000/api/health`
+
+3. **Start Frontend (Port 5173):**
+   ```bash
+   npm run dev --prefix client
+   ```
+   *Application URL:* `http://localhost:5173/`
+
+4. **Run Backend Test Suite:**
+   ```bash
+   npm test --prefix server
+   ```
+   *(Executes 18 comprehensive tests covering RBAC, row locking, stock accounting, idempotency, and security boundaries).*
+
+---
+
+## 6. Database Migrations
+
+* `server/src/db/schema.sql`: Full DDL schema for regions, camps, inventory, requests, request items, and audit logs.
+* `server/src/db/seed.sql`: Baseline synthetic Uttarakhand relief facilities and inventory.
+* `server/src/db/migrations/002_uttarakhand_synthetic_data.sql`: Scoped non-destructive migration that updates synthetic entities without dropping tables or altering real operational records.
+
+---
+
+## 7. Demonstration Script
+
+For a comprehensive step-by-step evaluation walkthrough, consult [`DEMO_SCRIPT.md`](./DEMO_SCRIPT.md).
+
+---
+
+## 8. AI Prompt Governance Kit
+
+Every prompt a team member provides to an AI assistant in this repository is logged word for word to `.ai-analytics/<member>.jsonl`, committed with their work, and categorized on a fixed rubric.
+
+### Enforced Rules
+- Log every prompt, word for word, to `.ai-analytics/`.
+- Prompt logs are append-only; tampering breaks the SHA-256 hash chain.
+- Verify log integrity at any time:
+  ```bash
+  python3 scripts/log_prompt.py verify
+  python3 scripts/log_prompt.py report
+  ```

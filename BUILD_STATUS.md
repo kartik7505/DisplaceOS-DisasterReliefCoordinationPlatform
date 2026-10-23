@@ -140,3 +140,49 @@ Summary: 18 passed, 0 failed, 9 suites. Total duration: 498ms.
     - `GET /api/dashboard/stats` with demo admin credentials returns active metrics.
     - `POST /api/requests` with demo manager credentials creates new supply request successfully.
 
+---
+
+## 5. Uttarakhand, India Synthetic Localization & Verification
+
+### Implemented Scope
+1. **Locations & Crisis Map:**
+   - MapLibre GL centered on Uttarakhand (`[79.2000, 30.1500]`, zoom 7.6) with metric scale control.
+   - Six fictional relief facilities with authentic district coordinates:
+     - Dehradun: *Maldevta Relief Shelter (Fictional)* [78.1250, 30.3340]
+     - Rudraprayag: *Rudraprayag Sangam Evacuation Camp (Fictional)* [78.9810, 30.2850]
+     - Chamoli: *Joshimath-Pipalkoti Transit Camp (Fictional)* [79.3300, 30.4300]
+     - Nainital: *Nainital Valley Emergency Shelter (Fictional)* [79.5200, 29.3800]
+     - Pithoragarh: *Pithoragarh Foothills Staging Base (Fictional)* [80.2180, 29.5820]
+     - Haridwar: *Haridwar Ganga Basin Camp (Fictional)* [78.1350, 29.9320]
+   - All facilities explicitly labeled as *Synthetic Simulation / Fictional Demo*.
+2. **Indian Synthetic Personnel:**
+   - Administrator: *Anjali Sharma* (`admin-001`)
+   - Regional Coordinator: *Meera Joshi* (`coord-001`)
+   - Camp Manager: *Asha Rawat* (`mgr-001`)
+   - Volunteer: *Ravi Bisht* (`vol-001`)
+   - Preserved all stable IDs, role permissions, and assignment logic.
+3. **Locally Relevant Mountain Relief Supplies:**
+   - Rice, Atta, Dal, Packaged Drinking Water (20L Jerry Cans), Heavy Woolen Blankets, Heavy-Duty Tarpaulins, Emergency Trauma First-Aid, WHO-Standard ORS Packets, Family Hygiene Kits, Sanitary Pads, Infant Care Supplies.
+   - Explicit depot units: `bags`, `sacks`, `cans`, `units`, `tarps`, `kits`, `boxes`, `packs`.
+4. **Indian Formatting & Presentation:**
+   - `en-IN` number formatting (`formatNumberIN`).
+   - Pure ISO-8601 UTC timestamps stored internally; rendered in `Asia/Kolkata` IST.
+   - Rupee symbol (`₹`) used exclusively for monetary values.
+   - Clean UTF-8 throughout — all garbled characters (`??`, `Ã—`, `â€”`) eliminated.
+5. **Database Migration & Scoped Updates:**
+   - Created `server/src/db/migrations/002_uttarakhand_synthetic_data.sql` targeting fixed synthetic IDs without affecting real records or resetting database state.
+   - Updated `server/src/db/seed.sql` and `server/src/db/store.ts`.
+6. **Documentation & Demonstration:**
+   - Created [`DEMO_SCRIPT.md`](./DEMO_SCRIPT.md) providing full scenario walkthrough.
+   - Updated [`README.md`](./README.md) with architecture, API usage, and Uttarakhand scenarios.
+
+### Verification Matrix
+| Check | Command / Target | Status | Result |
+| :--- | :--- | :--- | :--- |
+| Client Build | `npm run build --prefix client` | **PASS** | 2,004 modules bundled cleanly with Vite. |
+| Server Build | `npm run build --prefix server` | **PASS** | TypeScript compiled to `dist/` without errors. |
+| Backend Tests | `npm test --prefix server` | **PASS** | 18/18 tests passing across 9 test suites. |
+| Prompt Integrity | `python3 scripts/log_prompt.py verify` | **PASS** | 11/11 prompts verified; SHA-256 hash chain intact. |
+| Prompt Report | `python3 scripts/log_prompt.py report` | **PASS** | Integrity OK, 0 blocked change attempts. |
+
+

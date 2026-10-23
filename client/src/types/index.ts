@@ -75,6 +75,8 @@ export interface SupplyRequest {
   id: string;
   camp_id: string;
   camp_name?: string;
+  region_id?: string;
+  region_name?: string;
   requested_by: string;
   requester_name?: string;
   status: RequestStatus;
@@ -106,5 +108,5 @@ export interface Notification {
 // Demo data marker type
 export interface DemoDataMeta {
   isDemo: true;
-  label: "?? DEMO DATA â€“ NOT REAL OPERATIONS";
+  label: "⚠️ SYNTHETIC SIMULATION DATA — NOT REAL OPERATIONS";
 }
