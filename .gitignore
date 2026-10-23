@@ -1,4 +1,30 @@
+﻿# Environment secrets — NEVER commit
 .env
+.env.local
+.env.*.local
+
+# Build outputs
+client/dist
+server/dist
+*.tsbuildinfo
+
+# Node modules
+node_modules
+client/node_modules
+server/node_modules
+
+# Python cache (governance scripts)
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
