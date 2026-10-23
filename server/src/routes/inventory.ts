@@ -1,62 +1,52 @@
 import { Router, Response } from "express";
-import pool from "../db/pool";
+import dbStore from "../db/store";
 import { authenticate, requireRole, AuthRequest } from "../middleware/auth";
 
 const router = Router();
 
+// GET /api/inventory - fetch inventory, optionally filtered by region
 router.get("/", authenticate, async (req: AuthRequest, res: Response) => {
   try {
     const { region_id } = req.query;
-    const params: string[] = [];
-    let where = "";
-    if (region_id) {
-      params.push(region_id as string);
-      where = "WHERE i.region_id = $1";
-    }
-    const { rows } = await pool.query(
-      `SELECT i.*, r.name AS region_name FROM inventory i
-       JOIN regions r ON r.id = i.region_id
-       ${where}
-       ORDER BY i.category, i.name`,
-      params
-    );
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
+    const inventory = await dbStore.getInventory(region_id as string);
+    res.json(inventory);
+  } catch (err: any) {
+    console.error("Error fetching inventory:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
+// GET /api/inventory/:id - fetch single inventory item
+router.get("/:id", authenticate, async (req: AuthRequest, res: Response) => {
+  try {
+    const item = await dbStore.getInventoryItem(req.params.id as string);
+    if (!item) return res.status(404).json({ error: "Inventory item not found", code: "NOT_FOUND" });
+    res.json(item);
+  } catch (err: any) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// POST /api/inventory - create inventory item
 router.post("/", authenticate, requireRole("regional_coordinator", "admin"), async (req: AuthRequest, res: Response) => {
   try {
     const { region_id, name, category, unit, quantity_available, reorder_threshold } = req.body;
-    if (!region_id || !name) return res.status(400).json({ error: "region_id and name required" });
-    const { rows: [item] } = await pool.query(
-      `INSERT INTO inventory (region_id, name, category, unit, quantity_available, reorder_threshold)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [region_id, name, category || "other", unit || "units", quantity_available || 0, reorder_threshold || 10]
-    );
-    res.status(201).json(item);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+    if (!region_id || !name) {
+      return res.status(400).json({ error: "region_id and name are required", code: "VALIDATION_ERROR" });
+    }
 
-router.patch("/:id/restock", authenticate, requireRole("regional_coordinator", "admin"), async (req: AuthRequest, res: Response) => {
-  try {
-    const { quantity } = req.body;
-    if (!quantity || quantity <= 0) return res.status(400).json({ error: "Positive quantity required" });
-    const { rows: [item] } = await pool.query(
-      `UPDATE inventory
-       SET quantity_available = quantity_available + $1, last_restocked_at = NOW()
-       WHERE id = $2 RETURNING *`,
-      [quantity, req.params.id]
-    );
-    if (!item) return res.status(404).json({ error: "Item not found" });
-    res.json(item);
-  } catch (err) {
-    console.error(err);
+    const item = await dbStore.createInventoryItem({
+      region_id,
+      name,
+      category: category || "other",
+      unit: unit || "units",
+      quantity_available: Math.max(0, Number(quantity_available) || 0),
+      reorder_threshold: Number(reorder_threshold) || 10,
+    });
+
+    res.status(201).json(item);
+  } catch (err: any) {
+    console.error("Error creating inventory item:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

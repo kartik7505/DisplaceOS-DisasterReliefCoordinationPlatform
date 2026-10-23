@@ -1,36 +1,28 @@
 import { Router, Response } from "express";
-import pool from "../db/pool";
+import dbStore from "../db/store";
 import { authenticate, AuthRequest } from "../middleware/auth";
 
 const router = Router();
 
-router.get("/", authenticate, async (_req: AuthRequest, res: Response) => {
+// GET /api/camps - list camps, optionally filtered by region
+router.get("/", authenticate, async (req: AuthRequest, res: Response) => {
   try {
-    const { rows } = await pool.query(
-      `SELECT c.*, r.name AS region_name, p.full_name AS manager_name
-       FROM camps c
-       JOIN regions r ON r.id = c.region_id
-       LEFT JOIN profiles p ON p.id = c.manager_id
-       WHERE c.is_active = true
-       ORDER BY r.name, c.name`
-    );
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
+    const { region_id } = req.query;
+    const camps = await dbStore.getCamps(region_id as string);
+    res.json(camps);
+  } catch (err: any) {
+    console.error("Error fetching camps:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
+// GET /api/camps/:id - get single camp details
 router.get("/:id", authenticate, async (req: AuthRequest, res: Response) => {
   try {
-    const { rows: [camp] } = await pool.query(
-      `SELECT c.*, r.name AS region_name FROM camps c JOIN regions r ON r.id = c.region_id WHERE c.id = $1`,
-      [req.params.id]
-    );
-    if (!camp) return res.status(404).json({ error: "Camp not found" });
+    const camp = await dbStore.getCampById(req.params.id as string);
+    if (!camp) return res.status(404).json({ error: "Camp not found", code: "NOT_FOUND" });
     res.json(camp);
-  } catch (err) {
-    console.error(err);
+  } catch (err: any) {
     res.status(500).json({ error: "Internal server error" });
   }
 });

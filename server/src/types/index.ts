@@ -71,6 +71,11 @@ export interface SupplyRequest {
   cancelled_reason?: string;
   created_at: string;
   updated_at: string;
+  camp_name?: string;
+  region_id?: string;
+  region_name?: string;
+  requester_name?: string;
+  volunteer_name?: string;
   items?: RequestItem[];
 }
 
@@ -81,10 +86,24 @@ export interface RequestItem {
   quantity_requested: number;
   quantity_allocated?: number;
   created_at: string;
+  name?: string;
+  category?: SupplyCategory;
+  unit?: string;
 }
 
 export interface AuthPayload {
   userId: string;
   role: UserRole;
   email: string;
+  region_id?: string;
+  camp_id?: string;
+}
+
+export interface IdempotencyRecord {
+  key: string;
+  action: string;
+  requestBodyHash: string;
+  statusCode: number;
+  responseBody: any;
+  createdAt: string;
 }
