@@ -5,23 +5,79 @@ import { demoCamps, demoRegions } from "../lib/demoData";
 import { MapPin, AlertTriangle, Mountain, Info, Layers, RefreshCw } from "lucide-react";
 import { formatNumberIN } from "../lib/utils";
 
-// Robust tile layer definitions
-const TILE_STYLES = {
-  carto_dark: {
-    name: "Dark Mountain (CARTO)",
+export type TileStyleKey = "esri_topo" | "tactical_dark" | "esri_satellite" | "osm_streets";
+
+// 100% Free, open, watermark-free tile providers with high Himalayan terrain fidelity
+const TILE_STYLES: Record<TileStyleKey, { name: string; style: any }> = {
+  esri_topo: {
+    name: "Mountain Topo",
     style: {
       version: 8,
       sources: {
         base_tiles: {
           type: "raster",
           tiles: [
-            "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-            "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-            "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-            "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
           ],
           tileSize: 256,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+          attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &copy; OpenStreetMap contributors',
+          maxzoom: 19,
+        },
+      },
+      layers: [
+        {
+          id: "base_layer",
+          type: "raster",
+          source: "base_tiles",
+          minzoom: 0,
+          maxzoom: 19,
+        },
+      ],
+    },
+  },
+  tactical_dark: {
+    name: "Tactical Dark",
+    style: {
+      version: 8,
+      sources: {
+        base_tiles: {
+          type: "raster",
+          tiles: [
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+          ],
+          tileSize: 256,
+          attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &copy; OpenStreetMap contributors',
+          maxzoom: 19,
+        },
+      },
+      layers: [
+        {
+          id: "base_layer",
+          type: "raster",
+          source: "base_tiles",
+          paint: {
+            "raster-brightness-max": 0.58,
+            "raster-saturation": -0.88,
+            "raster-contrast": 0.28,
+          },
+          minzoom: 0,
+          maxzoom: 19,
+        },
+      ],
+    },
+  },
+  esri_satellite: {
+    name: "Satellite View",
+    style: {
+      version: 8,
+      sources: {
+        base_tiles: {
+          type: "raster",
+          tiles: [
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          ],
+          tileSize: 256,
+          attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Earthstar Geographics',
           maxzoom: 19,
         },
       },
@@ -37,7 +93,7 @@ const TILE_STYLES = {
     },
   },
   osm_streets: {
-    name: "Street Map (OSM)",
+    name: "Street Map",
     style: {
       version: 8,
       sources: {
@@ -66,11 +122,11 @@ const TILE_STYLES = {
 
 function CampLegend({
   activeLayer,
-  onToggleLayer,
+  onSelectLayer,
   onResetView,
 }: {
-  activeLayer: "carto_dark" | "osm_streets";
-  onToggleLayer: () => void;
+  activeLayer: TileStyleKey;
+  onSelectLayer: (layer: TileStyleKey) => void;
   onResetView: () => void;
 }) {
   return (
@@ -102,16 +158,29 @@ function CampLegend({
         <span>Regional Warehouse / Zone Hub</span>
       </div>
 
-      {/* Layer Toggle Button */}
-      <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-        <span className="text-slate-400 text-[11px]">Tile Theme:</span>
-        <button
-          onClick={onToggleLayer}
-          className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-2 py-1 rounded text-[11px] font-medium transition"
-        >
-          <Layers className="w-3 h-3 text-orange-400" />
-          <span>{TILE_STYLES[activeLayer].name}</span>
-        </button>
+      {/* Layer Selector */}
+      <div className="pt-2 border-t border-slate-800 space-y-1.5">
+        <div className="flex items-center justify-between text-slate-400 text-[11px]">
+          <span className="flex items-center gap-1">
+            <Layers className="w-3 h-3 text-orange-400" />
+            <span>Map Theme:</span>
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-1.5">
+          {(Object.keys(TILE_STYLES) as TileStyleKey[]).map((key) => (
+            <button
+              key={key}
+              onClick={() => onSelectLayer(key)}
+              className={`px-2 py-1 rounded text-[11px] font-medium border text-left truncate transition ${
+                activeLayer === key
+                  ? "bg-orange-500/20 border-orange-500/60 text-orange-300 font-semibold shadow-sm"
+                  : "bg-slate-800/80 hover:bg-slate-800 border-slate-700 text-slate-300"
+              }`}
+            >
+              {TILE_STYLES[key].name}
+            </button>
+          ))}
+        </div>
       </div>
 
       <p className="text-[10px] text-slate-500 pt-1 border-t border-slate-800 leading-tight">
@@ -125,7 +194,7 @@ export default function MapPage() {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
-  const [activeLayer, setActiveLayer] = useState<"carto_dark" | "osm_streets">("carto_dark");
+  const [activeLayer, setActiveLayer] = useState<TileStyleKey>("esri_topo");
   const [mapError, setMapError] = useState<string | null>(null);
 
   // Helper to add all markers and popups to a map instance
@@ -233,10 +302,9 @@ export default function MapPage() {
     }
   }, []);
 
-  // Layer toggle handler
-  const handleToggleLayer = () => {
-    if (!mapRef.current) return;
-    const nextLayer: "carto_dark" | "osm_streets" = activeLayer === "carto_dark" ? "osm_streets" : "carto_dark";
+  // Layer select handler
+  const handleSelectLayer = (nextLayer: TileStyleKey) => {
+    if (!mapRef.current || nextLayer === activeLayer) return;
     setActiveLayer(nextLayer);
     mapRef.current.setStyle(TILE_STYLES[nextLayer].style as any);
     mapRef.current.once("style.load", () => {
@@ -297,7 +365,7 @@ export default function MapPage() {
         {/* Floating Legend & Layer Controller */}
         <CampLegend
           activeLayer={activeLayer}
-          onToggleLayer={handleToggleLayer}
+          onSelectLayer={handleSelectLayer}
           onResetView={handleResetView}
         />
 
